@@ -1,0 +1,13 @@
+diff --git a/contentimport/contentimport.module b/contentimport/contentimport.module
+index 93c566e49..88418a63b 100644
+--- a/contentimport/contentimport.module
++++ b/contentimport/contentimport.module
+@@ -195,7 +195,7 @@ function create_node($filedata, $contentType) {
+   // Code for import csv file.
+   $mimetype = 1;
+   if ($mimetype) {
+-    $location = $filedata->destination;
++    $location = $filedata->getFileUri();
+     if (($handle = fopen($location, "r")) !== FALSE) {
+       $keyIndex = [];
+       $index = 0;
