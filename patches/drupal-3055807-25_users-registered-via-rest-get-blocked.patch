@@ -1,0 +1,51 @@
+diff --git a/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php b/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
+index 01e72cb3d5..89dc619d7c 100644
+--- a/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
++++ b/core/modules/user/src/Plugin/rest/resource/UserRegistrationResource.php
+@@ -100,15 +100,19 @@ public static function create(ContainerInterface $container, array $configuratio
+   public function post(UserInterface $account = NULL) {
+     $this->ensureAccountCanRegister($account);
+ 
+-    // Only activate new users if visitors are allowed to register and no email
+-    // verification required.
+-    if ($this->userSettings->get('register') == UserInterface::REGISTER_VISITORS && !$this->userSettings->get('verify_mail')) {
++    // Only activate new users if visitors are allowed to register.
++    if ($this->userSettings->get('register') == UserInterface::REGISTER_VISITORS) {
+       $account->activate();
+     }
+     else {
+       $account->block();
+     }
+ 
++    // Generate password if email verification required.
++    if ($this->userSettings->get('verify_mail')) {
++      $account->setPassword(\Drupal::service('password_generator')->generate());
++    }
++
+     $this->checkEditFieldAccess($account);
+ 
+     // Make sure that the user entity is valid (email and name are valid).
+diff --git a/core/modules/user/tests/src/Functional/RestRegisterUserTest.php b/core/modules/user/tests/src/Functional/RestRegisterUserTest.php
+index 14629c6776..5c0d07adc7 100644
+--- a/core/modules/user/tests/src/Functional/RestRegisterUserTest.php
++++ b/core/modules/user/tests/src/Functional/RestRegisterUserTest.php
+@@ -103,8 +103,8 @@ public function testRegisterUser() {
+     $config->save();
+     $name = 'Jason.Taverner';
+     $user = $this->registerUser($name, FALSE);
+-    $this->assertEmpty($user->getPassword());
+-    $this->assertTrue($user->isBlocked());
++    $this->assertNotEmpty($user->getPassword());
++    $this->assertFalse($user->isBlocked());
+     $this->resetAll();
+ 
+     $this->assertMailString('body', 'You may now log in by clicking this link', 1);
+@@ -128,7 +128,7 @@ public function testRegisterUser() {
+     $name = 'Bob.Arctor';
+     $user = $this->registerUser($name, FALSE);
+     $this->resetAll();
+-    $this->assertEmpty($user->getPassword());
++    $this->assertNotEmpty($user->getPassword());
+     $this->assertTrue($user->isBlocked());
+ 
+     $this->assertMailString('body', 'Your application for an account is', 2);
