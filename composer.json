@@ -23,6 +23,7 @@
         "drupal/contentimport": "^9.3",
         "drupal/core-composer-scaffold": "^9.4",
         "drupal/core-recommended": "^9.4",
+        "drupal/csv_importer": "^1.14",
         "drupal/jsonapi_extras": "^3.21",
         "drupal/restui": "^1.21",
         "drush/drush": "^11.1",
