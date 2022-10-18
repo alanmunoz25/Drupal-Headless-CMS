@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * This method returns the drupal database object.
+ */
+function get_drupal_database() {
+  return \Drupal::database();
+}
+
+/**
+ * This method returns the current drupal user.
+ */
+function get_drupal_current_user() {
+  return \Drupal::currentUser();
+}
+
+/**
+ * Returns the current database name.
+ */
+function get_current_db_name() {
+  $conn = \Drupal::database();
+  $db_conf = $conn->getConnectionOptions();
+  return $db_conf['database'];
+}
