@@ -7,8 +7,6 @@
 /web/profiles/contrib/
 /web/libraries/
 /drush/
-/phpunit.xml.dist
-/load.environment.php
 
 # Ignore sensitive information
 /web/sites/*/settings.php
