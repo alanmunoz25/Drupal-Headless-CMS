@@ -1,0 +1,7 @@
+name: Countries import
+description: This is to import countries and cities as entities
+package: Custom
+type: module
+dependencies:
+  - block
+core_version_requirement: ^9
