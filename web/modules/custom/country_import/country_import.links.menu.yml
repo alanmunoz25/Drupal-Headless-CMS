@@ -1,0 +1,21 @@
+country_import.settings:
+  title: Country data import
+  route_name: country_import.json_data_import
+  description: 'Import data for countries and sectors'
+  parent: system.admin_config_development
+
+
+
+country_import.settings.general_info:
+  title: General info
+  route_name: country_import.general_info
+  description: 'Get the DB name'
+  parent: country_import.settings
+  weight: 1
+
+country_import.settings.json_data_import_dump:
+  title: JSON Data Dump
+  route_name: country_import.json_data_import_dump
+  description: 'Allows you to import JSON file'
+  parent: country_import.settings
+  weight: 2

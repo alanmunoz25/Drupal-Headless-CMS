@@ -1,0 +1,26 @@
+diff --git a/core/modules/user/src/Controller/UserAuthenticationController.php b/core/modules/user/src/Controller/UserAuthenticationController.php
+index ec36f9fd..6db3ef9a 100644
+--- a/core/modules/user/src/Controller/UserAuthenticationController.php
++++ b/core/modules/user/src/Controller/UserAuthenticationController.php
+@@ -197,6 +197,9 @@ class UserAuthenticationController extends ControllerBase implements ContainerIn
+       if ($user->get('uid')->access('view', $user)) {
+         $response_data['current_user']['uid'] = $user->id();
+       }
++      if ($user->get('uuid')->access('view', $user)) {
++        $response_data['current_user']['uuid'] = $user->uuid();
++      }
+       if ($user->get('roles')->access('view', $user)) {
+         $response_data['current_user']['roles'] = $user->getRoles();
+       }
+diff --git a/core/modules/user/tests/src/Functional/UserLoginHttpTest.php b/core/modules/user/tests/src/Functional/UserLoginHttpTest.php
+index b2f87f28..49024ed0 100644
+--- a/core/modules/user/tests/src/Functional/UserLoginHttpTest.php
++++ b/core/modules/user/tests/src/Functional/UserLoginHttpTest.php
+@@ -183,6 +183,7 @@ class UserLoginHttpTest extends BrowserTestBase {
+     $result_data = $this->serializer->decode($response->getBody(), $format);
+     $this->assertEquals($name, $result_data['current_user']['name']);
+     $this->assertEquals($account->id(), $result_data['current_user']['uid']);
++    $this->assertEquals($account->uuid(), $result_data['current_user']['uuid']);
+     $this->assertEquals($account->getRoles(), $result_data['current_user']['roles']);
+     $logout_token = $result_data['logout_token'];
+ 

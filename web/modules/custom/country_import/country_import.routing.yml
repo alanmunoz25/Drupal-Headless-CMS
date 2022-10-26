@@ -1,0 +1,23 @@
+country_import.json_data_import:
+  path: '/admin/config/development/country-import'
+  defaults:
+    _controller: 'Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Countries Data Import'
+  requirements:
+    _permission: 'administer site configuration'
+
+country_import.json_data_import_dump:
+  path: '/admin/config/development/country-import/json-data-import'
+  defaults:
+    _form: '\Drupal\country_import\Form\JsonDataImport'
+    _title: 'Import JSON Data'
+  requirements:
+    _permission: 'administer site configuration'
+
+country_import.general_info:
+  path: '/admin/config/development/country-import/general-info'
+  defaults:
+    _controller: '\Drupal\country_import\Controller\InfoController::content'
+    _title: 'General data'
+  requirements:
+    _permission: 'administer site configuration'
